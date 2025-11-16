@@ -3,10 +3,13 @@ FROM debian:stable-slim
 RUN apt update && apt install -y mariadb-server 
 
 COPY 50-server.cnf /etc/mysql/mariadb.conf.d/.
-COPY init.sql /etc/mysql/init.sql
+COPY init.sh /init.sh
+RUN chmod +x /init.sh
 
-RUN mkdir -p /var/run/mysqld
+RUN mkdir -p /var/run/mysqld \
+    && chown -R mysql:mysql /var/run/mysqld \
+    && chown -R mysql:mysql /var/lib/mysql
 
+EXPOSE 3306
 
-
-CMD [ "mysqld_safe" ]
+CMD ["/init.sh"]

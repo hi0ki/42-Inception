@@ -1,7 +1,13 @@
 FROM debian:stable-slim
 
-RUN apt-get update && apt-get install -y nginx
+RUN apt-get update && apt-get install -y nginx \
+    openssl 
 
 COPY default /etc/nginx/sites-available/.
+COPY setup_ssl.sh setup_ssl.sh
 
-CMD [ "nginx", "-g", "daemon off;" ]
+RUN chmod +x /setup_ssl.sh
+
+EXPOSE 443
+
+CMD ["./setup_ssl.sh"]

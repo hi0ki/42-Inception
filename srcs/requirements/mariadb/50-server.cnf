@@ -5,7 +5,7 @@
 # this is read by the standalone daemon and embedded servers
 [server]
 
-init_file = /etc/mysql/init.sql
+#init_file = /etc/mysql/init.sql
 
 # this is only for the mariadbd daemon
 [mariadbd]
@@ -26,7 +26,8 @@ tmpdir                  = /tmp
 
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address            = mariadb
+bind-address            = 0.0.0.0
+port = 3306
 
 #
 # * Fine Tuning

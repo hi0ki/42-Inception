@@ -22,6 +22,17 @@ server {
 	listen 80 default_server;
 	listen [::]:80 default_server;
 
+	listen 443 ssl default_server;
+	listen [::]:443 ssl default_server;
+
+
+
+	# ADD THESE LINES:
+	ssl_certificate /etc/nginx/ssl/nginx.crt;
+	ssl_certificate_key /etc/nginx/ssl/nginx.key;
+	ssl_protocols TLSv1.2 TLSv1.3;
+
+	server_name eel-ansa.42.fr;
 	# SSL configuration
 	#
 	# listen 443 ssl default_server;
@@ -43,7 +54,6 @@ server {
 	# Add index.php to the list if you are using PHP
 	index index.php index.html index.htm index.nginx-debian.html;
 
-	server_name _;
 
 	location / {
 		# First attempt to serve request as file, then

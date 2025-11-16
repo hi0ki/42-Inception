@@ -1,16 +1,29 @@
+
+# volumes / depandencies to be added later / image names to be changed later / restart policies to be added later
 services:
  nginx:
   build: requirements/nginx/.
   container_name: nginx
   ports:
-   - "80:80"
+   - "443:443"
   volumes:
    - ./web:/var/www/html/
+  networks:
+   - inception
  wordpress:
   build: requirements/wordpress/.
   container_name: wp-php
   volumes:
    - ./web:/var/www/html/
+  networks:
+   - inception
  mariadb:
   build: requirements/mariadb/.
   container_name: mariadb
+  networks:
+   - inception
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
