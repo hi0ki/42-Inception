@@ -1,9 +1,16 @@
 #!/bin/bash
 set -e
 
+# CRITICAL: Fix permissions on the mounted volume
+chown -R mysql:mysql /var/lib/mysql
+chown -R mysql:mysql /var/run/mysqld
+
 # Check if database is initialized
 if [ ! -d "/var/lib/mysql/wordpress" ]; then
     echo "First run - initializing database..."
+    
+    # Initialize database as mysql user
+    mysql_install_db --user=mysql --datadir=/var/lib/mysql 2>/dev/null || echo "DB already initialized"
     
     # Start MariaDB temporarily in background
     mariadbd --user=mysql &
@@ -12,7 +19,7 @@ if [ ! -d "/var/lib/mysql/wordpress" ]; then
     # Wait for MariaDB to be ready
     echo "Waiting for MariaDB to start..."
     for i in {30..0}; do
-        if mysqladmin ping --silent; then
+        if mysqladmin ping --silent 2>/dev/null; then
             break
         fi
         sleep 1
@@ -32,7 +39,7 @@ FLUSH PRIVILEGES;
 EOF
     
     echo "Stopping temporary MariaDB..."
-    mysqladmin shutdown
+    mysqladmin shutdown 2>/dev/null
     wait $pid
 fi
 

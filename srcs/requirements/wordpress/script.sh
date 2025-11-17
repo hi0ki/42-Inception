@@ -41,7 +41,7 @@ fi
 if ! ./wp-cli.phar core is-installed --allow-root 2>/dev/null; then
     echo "Installing WordPress..."
     ./wp-cli.phar core install \
-        --url=localhost \
+        --url=eel-ansa.42.fr \
         --title=inception \
         --admin_user=admin \
         --admin_password=admin \
