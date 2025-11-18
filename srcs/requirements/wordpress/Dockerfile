@@ -6,8 +6,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     mariadb-client
 
-COPY www.conf /etc/php/8.4/fpm/pool.d/.
-COPY script.sh /script.sh
+COPY conf/www.conf /etc/php/8.4/fpm/pool.d/.
+COPY tools/script.sh /script.sh
 
 RUN chmod +x /script.sh
 
