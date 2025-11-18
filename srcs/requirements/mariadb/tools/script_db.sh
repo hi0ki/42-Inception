@@ -31,13 +31,17 @@ if [ ! -d "/var/lib/mysql/wordpress" ]; then
     fi
     
     echo "Creating database and user..."
+    
+    # Execute SQL commands
     mysql -u root << EOF
-CREATE DATABASE IF NOT EXISTS wordpress;
-CREATE USER IF NOT EXISTS 'wpuser'@'%' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'%';
+CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\`;
+CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 EOF
     
+    echo "Database setup complete!"
     echo "Stopping temporary MariaDB..."
     mysqladmin shutdown 2>/dev/null
     wait $pid
