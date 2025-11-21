@@ -3,6 +3,7 @@ FROM debian:stable-slim
 RUN apt-get update && apt-get install -y \
     php-fpm \
     php-mysql \
+    php-redis \
     curl \
     mariadb-client
 

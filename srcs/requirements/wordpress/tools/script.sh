@@ -8,14 +8,6 @@ if [ ! -f wp-cli.phar ]; then
     chmod +x wp-cli.phar
 fi
 
-# Wait for MariaDB to be ready
-# echo "Waiting for MariaDB..."
-# until mysqladmin ping -h mariadb -u wpuser -ppassword --silent 2>/dev/null; do
-#     echo "MariaDB is unavailable - sleeping"
-#     sleep 2
-# done
-# echo "MariaDB is ready!"
-
 # Download WordPress only if not already present
 if [ ! -f wp-settings.php ]; then
     echo "Downloading WordPress..."
@@ -56,6 +48,38 @@ if ! ./wp-cli.phar core is-installed --allow-root 2>/dev/null; then
 else
     echo "WordPress already installed, skipping..."
 fi
+
+# ============ REDIS SETUP ============
+
+# Install Redis PHP extension (required!)
+if ! php -m | grep -q redis; then
+    echo "Installing Redis PHP extension..."
+    apt-get update && apt-get install -y php-redis
+fi
+
+# Install Redis Object Cache plugin
+if ! ./wp-cli.phar plugin is-installed redis-cache --allow-root; then
+    echo "Installing Redis Cache plugin..."
+    ./wp-cli.phar plugin install redis-cache --activate --allow-root
+fi
+
+# Configure WordPress to use Redis
+if ! grep -q "WP_REDIS_HOST" wp-config.php; then
+    echo "Configuring Redis..."
+    ./wp-cli.phar config set WP_REDIS_HOST redis --allow-root
+    ./wp-cli.phar config set WP_REDIS_PORT 6379 --raw --allow-root
+    ./wp-cli.phar config set WP_REDIS_TIMEOUT 1 --raw --allow-root
+    ./wp-cli.phar config set WP_REDIS_READ_TIMEOUT 1 --raw --allow-root
+    ./wp-cli.phar config set WP_REDIS_DATABASE 0 --raw --allow-root
+fi
+
+# Enable Redis cache
+./wp-cli.phar redis enable --allow-root 2>/dev/null || echo "Redis already enabled"
+
+echo "Redis cache configured!"
+
+# ====================================
+
 
 echo "Starting PHP-FPM..."
 exec php-fpm8.4 -F

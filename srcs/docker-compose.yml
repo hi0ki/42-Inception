@@ -12,6 +12,14 @@ services:
    - mariadb_data:/var/lib/mysql
   env_file:
    - .env
+ #             Redis service
+ redis:
+  build: bonus/redis/.
+  container_name: redis
+  image: inception_redis
+  restart: always
+  networks:
+   - inception
  #            Wordpress service
  wordpress:
   build: requirements/wordpress/.
@@ -24,6 +32,7 @@ services:
    - inception
   depends_on:
    - mariadb
+   - redis
   env_file:
    - .env
  #             Nginx service
@@ -48,6 +57,7 @@ services:
   image: inception_website
   ports:
    - "80:80"
+
 # configure the network and volumes
 networks:
   inception:
@@ -67,3 +77,9 @@ volumes:
       type: none
       o: bind
       device: /home/eel-ansa/data/mariadb
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/eel-ansa/data/redis

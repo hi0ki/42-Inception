@@ -5,6 +5,7 @@ docker image rm -f $(docker image ls -aq)
 
 rm -rf /home/eel-ansa/data/wordpress/*
 rm -rf /home/eel-ansa/data/mariadb/*
+rm -rf /home/eel-ansa/data/redis/*
 
 #green text
 echo -e "\e[32mCleanup completed successfully.\e[0m"
