@@ -40,7 +40,14 @@ services:
    - wordpress_data:/var/www/html/
   depends_on:
    - wordpress
-
+ #             Website service
+ website:
+  build: bonus/website/.
+  container_name: website
+  restart: always
+  image: inception_website
+  ports:
+   - "80:80"
 # configure the network and volumes
 networks:
   inception:

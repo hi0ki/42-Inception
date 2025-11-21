@@ -1,0 +1,270 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #0a192f;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profile h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.contact {
+    text-align: right;
+}
+
+.contact p {
+    margin: 5px 0;
+    font-size: 0.95em;
+}
+
+.contact a {
+    color: white;
+    text-decoration: none;
+    border-bottom: 2px solid rgba(255,255,255,0.3);
+    transition: border-color 0.3s;
+}
+
+.contact a:hover {
+    border-bottom-color: white;
+}
+
+section {
+    padding: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+section:last-of-type {
+    border-bottom: none;
+}
+
+h2 {
+    font-size: 2em;
+    color: #667eea;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #667eea;
+}
+
+h3 {
+    font-size: 1.4em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+h4 {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.meta {
+    color: #888;
+    font-size: 0.95em;
+    margin-bottom: 10px;
+}
+
+.about p {
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+.edu-item {
+    margin-bottom: 20px;
+}
+
+/* Skills */
+.skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.skill-item h4 {
+    margin-bottom: 8px;
+}
+
+.skill-bar {
+    background: #e0e0e0;
+    height: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.skill-bar .fill {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1s ease;
+}
+
+/* Projects */
+.project-card {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #667eea;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+}
+
+.project-card p {
+    margin: 15px 0;
+    color: #555;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.tags span {
+    background: #667eea;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.85em;
+}
+
+/* Tech Grid */
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.tech-category {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.tech-category h4 {
+    color: #667eea;
+    margin-bottom: 10px;
+}
+
+.tech-category p {
+    color: #666;
+    font-size: 0.95em;
+}
+
+/* Languages */
+.lang-grid {
+    display: flex;
+    gap: 40px;
+}
+
+.lang-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    min-width: 150px;
+}
+
+.lang-name {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.lang-level {
+    color: #667eea;
+    font-size: 0.9em;
+}
+
+footer {
+    background: #2d3748;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+section {
+    animation: fadeIn 0.6s ease-in;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .contact {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .profile h1 {
+        font-size: 2em;
+    }
+    
+    section {
+        padding: 30px 20px;
+    }
+    
+    .skill-grid,
+    .tech-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .lang-grid {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
