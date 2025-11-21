@@ -1,22 +1,18 @@
 #!/bin/bash
 
 cd /var/www/html
-# Download wp-cli if not present
+
 if [ ! -f wp-cli.phar ]; then
     echo "Downloading WP-CLI..."
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     chmod +x wp-cli.phar
 fi
 
-# Download WordPress only if not already present
 if [ ! -f wp-settings.php ]; then
     echo "Downloading WordPress..."
     ./wp-cli.phar core download --allow-root
-else
-    echo "WordPress files already exist, skipping download..."
 fi
 
-# Create config only if it doesn't exist
 if [ ! -f wp-config.php ]; then
     echo "Creating wp-config.php..."
     ./wp-cli.phar config create \
@@ -25,11 +21,7 @@ if [ ! -f wp-config.php ]; then
         --dbpass=${DB_PASSWORD} \
         --dbhost=mariadb \
         --allow-root
-else
-    echo "wp-config.php already exists, skipping..."
 fi
-
-# Install WordPress only if not installed
 
 if ! ./wp-cli.phar core is-installed --allow-root 2>/dev/null; then
     echo "Installing WordPress..."
@@ -49,14 +41,6 @@ else
     echo "WordPress already installed, skipping..."
 fi
 
-# ============ REDIS SETUP ============
-
-# Install Redis PHP extension (required!)
-if ! php -m | grep -q redis; then
-    echo "Installing Redis PHP extension..."
-    apt-get update && apt-get install -y php-redis
-fi
-
 # Install Redis Object Cache plugin
 if ! ./wp-cli.phar plugin is-installed redis-cache --allow-root; then
     echo "Installing Redis Cache plugin..."
@@ -68,8 +52,6 @@ if ! grep -q "WP_REDIS_HOST" wp-config.php; then
     echo "Configuring Redis..."
     ./wp-cli.phar config set WP_REDIS_HOST redis --allow-root
     ./wp-cli.phar config set WP_REDIS_PORT 6379 --raw --allow-root
-    ./wp-cli.phar config set WP_REDIS_TIMEOUT 1 --raw --allow-root
-    ./wp-cli.phar config set WP_REDIS_READ_TIMEOUT 1 --raw --allow-root
     ./wp-cli.phar config set WP_REDIS_DATABASE 0 --raw --allow-root
 fi
 
