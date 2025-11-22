@@ -77,9 +77,3 @@ volumes:
       type: none
       o: bind
       device: /home/eel-ansa/data/mariadb
-  redis_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/eel-ansa/data/redis

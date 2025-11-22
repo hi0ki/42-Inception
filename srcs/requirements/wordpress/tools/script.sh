@@ -51,16 +51,13 @@ fi
 if ! grep -q "WP_REDIS_HOST" wp-config.php; then
     echo "Configuring Redis..."
     ./wp-cli.phar config set WP_REDIS_HOST redis --allow-root
-    ./wp-cli.phar config set WP_REDIS_PORT 6379 --raw --allow-root
-    ./wp-cli.phar config set WP_REDIS_DATABASE 0 --raw --allow-root
+    ./wp-cli.phar config set WP_REDIS_PORT 6379 --allow-root
 fi
 
 # Enable Redis cache
 ./wp-cli.phar redis enable --allow-root 2>/dev/null || echo "Redis already enabled"
 
 echo "Redis cache configured!"
-
-# ====================================
 
 
 echo "Starting PHP-FPM..."
